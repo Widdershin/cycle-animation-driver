@@ -4,7 +4,8 @@
   "description": "A Cycle driver for requestAnimationFrame",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register"
+    "test": "mocha --compilers js:babel-core/register",
+    "autotest": "mocha --compilers js:babel-core/register --watch -R min"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/Widdershin/cycle-animation-driver/issues"
   },
-  "homepage": "https://github.com/Widdershin/cycle-animation-driver"
+  "homepage": "https://github.com/Widdershin/cycle-animation-driver",
+  "devDependencies": {
+    "babel-core": "^6.1.21",
+    "babel-preset-es2015": "^6.1.18",
+    "mocha": "^2.3.4"
+  }
 }
