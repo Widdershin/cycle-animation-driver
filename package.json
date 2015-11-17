@@ -1,0 +1,24 @@
+{
+  "name": "cycle-animation-driver",
+  "version": "0.0.1",
+  "description": "A Cycle driver for requestAnimationFrame",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Widdershin/cycle-animation-driver.git"
+  },
+  "keywords": [
+    "cycle",
+    "animation",
+    "happiness"
+  ],
+  "author": "Nick Johnstone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Widdershin/cycle-animation-driver/issues"
+  },
+  "homepage": "https://github.com/Widdershin/cycle-animation-driver"
+}
