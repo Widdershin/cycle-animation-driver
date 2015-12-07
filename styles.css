@@ -1,0 +1,20 @@
+.hello-world {
+  color: #663399;
+}
+
+.time {
+  display: flex;
+}
+
+.node {
+  position: absolute;
+}
+
+html, body {
+  background: black;
+  color: white;
+}
+
+input[type=range]::-moz-range-track {
+  background: gray;
+}
