@@ -19,7 +19,7 @@ describe('Animation driver', () => {
 
     let index = 0;
 
-    responses.take(2).subscribe(val => {
+    responses.take(2).pluck('timestamp').subscribe(val => {
       if (index === 0) {
         firstTimeValue = val;
 
@@ -39,4 +39,3 @@ describe('Animation driver', () => {
     });
   });
 });
-
