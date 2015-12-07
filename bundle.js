@@ -7,8 +7,6 @@ var _dom = require('@cycle/dom');
 
 var _driver = require('./lib/driver');
 
-var _driver2 = _interopRequireDefault(_driver);
-
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -50,7 +48,7 @@ function main(_ref) {
 
 var drivers = {
   DOM: (0, _dom.makeDOMDriver)('.app'),
-  animation: (0, _driver2.default)()
+  animation: (0, _driver.makeAnimationDriver)()
 };
 
 var _run = (0, _core.run)(main, drivers);
