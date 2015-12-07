@@ -1,6 +1,6 @@
 import {run} from '@cycle/core';
 import {makeDOMDriver, div, input} from '@cycle/dom';
-import makeAnimationDriver from './lib/driver';
+import {makeAnimationDriver} from './lib/driver';
 import _ from 'lodash';
 
 const maxSpeed = 500;

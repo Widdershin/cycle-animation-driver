@@ -1,6 +1,6 @@
 import Rx from 'rx';
 
-export default function makeAnimationDriver () {
+function makeAnimationDriver () {
   return function animationDriver () {
     const animation$ = new Rx.Subject();
 
@@ -14,3 +14,7 @@ export default function makeAnimationDriver () {
     return animation$;
   };
 }
+
+module.exports = {
+  makeAnimationDriver
+};
