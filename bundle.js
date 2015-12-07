@@ -67,11 +67,6 @@ if (module.hot) {
 },{"./lib/driver":2,"@cycle/core":3,"@cycle/dom":4,"lodash":64}],2:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = makeAnimationDriver;
-
 var _rx = require('rx');
 
 var _rx2 = _interopRequireDefault(_rx);
@@ -94,6 +89,10 @@ function makeAnimationDriver() {
     return animation$;
   };
 }
+
+module.exports = {
+  makeAnimationDriver: makeAnimationDriver
+};
 
 },{"rx":65}],3:[function(require,module,exports){
 "use strict";
