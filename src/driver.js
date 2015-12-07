@@ -4,7 +4,7 @@ function makeAnimationDriver () {
   return function animationDriver () {
     const animation$ = new Rx.Subject();
 
-    let prevTime = new Date().valueOf();
+    let prevTime = performance.now();
 
     function tick (timestamp) {
       animation$.onNext({
