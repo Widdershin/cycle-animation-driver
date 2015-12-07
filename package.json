@@ -11,7 +11,8 @@
     "autotest": "mocha --compilers js:babel-core/register --watch -R min",
     "precompile-lib": "rm -rf lib/ && mkdir -p lib",
     "compile-lib": "babel src -d lib",
-    "prepublish": "npm run compile-lib"
+    "prepublish": "npm run compile-lib",
+    "bundle": "browserify -t babelify index.js -o bundle.js"
   },
   "repository": {
     "type": "git",
