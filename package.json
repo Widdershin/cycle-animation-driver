@@ -1,13 +1,15 @@
 {
   "name": "cycle-animation-driver",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "A Cycle driver for requestAnimationFrame",
   "main": "lib/driver.js",
   "files": [
     "lib/"
   ],
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register",
+    "test": "npm run test-node && npm run test-browser",
+    "test-node": "mocha --compilers js:babel-core/register",
+    "test-browser": "./node_modules/mochify/bin/cmd.js --transform babelify",
     "autotest": "mocha --compilers js:babel-core/register --watch -R min",
     "precompile-lib": "rm -rf lib/ && mkdir -p lib",
     "compile-lib": "babel src -d lib",
@@ -42,7 +44,11 @@
     "garnish": "^5.0.0",
     "lodash": "^3.10.1",
     "mocha": "^2.3.4",
-    "raf": "^3.1.0",
+    "mochify": "^2.14.2",
     "rx": "^4.0.7"
+  },
+  "dependencies": {
+    "raf": "^3.1.0",
+    "performance-now": "^0.2.0"
   }
 }
