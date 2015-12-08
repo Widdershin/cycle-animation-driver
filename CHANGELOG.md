@@ -1,5 +1,10 @@
 
-0.1.0 - Mon 7 Dec 2015
+0.1.1 - Tue 8 Dec 2015
+---
+
+* Add missing dependencies to package.json, thanks travis ci!
+
+0.1.0 - Tue 8 Dec 2015
 ---
 
 * Add support for deltatime (#1), thanks @edge!
