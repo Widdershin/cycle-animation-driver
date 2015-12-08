@@ -1,6 +1,7 @@
 import Rx from 'rx';
 
 import now from 'performance-now';
+import requestAnimationFrame from 'raf';
 
 function makeAnimationDriver () {
   return function animationDriver () {

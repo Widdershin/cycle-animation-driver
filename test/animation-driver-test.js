@@ -3,11 +3,7 @@
 import Rx from 'rx';
 import {makeAnimationDriver} from '../src/driver';
 
-import raf from 'raf';
-
 import assert from 'assert';
-
-global.requestAnimationFrame = raf;
 
 describe('Animation driver', () => {
   it('provides an observable of requestAnimationFrame events', (done) => {
