@@ -1,3 +1,8 @@
+[![npm version](https://badge.fury.io/js/cycle-animation-driver.svg)](http://badge.fury.io/js/cycle-animation-driver)
+[![Build Status](https://travis-ci.org/Widdershin/cycle-animation-driver.svg?branch=master)](https://travis-ci.org/Widdershin/cycle-animation-driver)
+
+* * *
+
 # cycle-animation-driver
 A Cycle driver for requestAnimationFrame
 
