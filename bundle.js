@@ -15,13 +15,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var maxSpeed = 500;
 var maxHeight = 100;
+var maxWidth = 15 * 50;
+var maxNodeCount = 100;
 
-function nodes(timestamp, speed, height) {
-  return (0, _dom.div)('.nodes', _lodash2.default.range(1, 50).map(function (i) {
+function fancyColor(timestamp, i, offset) {
+  return Math.abs(Math.round((timestamp + offset * 100 + i * 20) % 512) - 255);
+}
+
+function nodes(timestamp, speed, height, nodeCount) {
+  var increment = maxWidth / nodeCount;
+
+  return (0, _dom.div)('.nodes', _lodash2.default.range(1, nodeCount).map(function (i) {
     return (0, _dom.div)('.node', {
+      key: i,
       style: {
-        left: i * 15 + 'px',
-        top: (Math.sin(i + timestamp / (maxSpeed - speed)) * height + 150).toString() + 'px'
+        color: 'rgb(' + fancyColor(timestamp, i, 0) + ', ' + fancyColor(timestamp, i, 1) + ', ' + fancyColor(timestamp, i, 2) + ')',
+        left: increment * i + 'px',
+        top: (Math.sin(increment * i + timestamp / (maxSpeed - speed)) * height + 150).toString() + 'px'
       }
     }, '.');
   }));
@@ -39,9 +49,13 @@ function main(_ref) {
     return ev.target.value;
   }).startWith(maxHeight / 2);
 
+  var nodeCount$ = DOM.select('.node-count').events('input').map(function (ev) {
+    return ev.target.value;
+  }).startWith(45);
+
   return {
-    DOM: animation.withLatestFrom(speed$, height$, function (timestamp, speed, height) {
-      return (0, _dom.div)('.time', [nodes(timestamp, speed, height), 'Speed', (0, _dom.input)('.speed', { type: 'range', min: 1, max: maxSpeed, value: speed }), 'Height', (0, _dom.input)('.height', { type: 'range', min: 1, max: maxHeight, value: height })]);
+    DOM: animation.pluck('timestamp').withLatestFrom(speed$, height$, nodeCount$, function (timestamp, speed, height, nodeCount) {
+      return (0, _dom.div)('.time', [nodes(timestamp, speed, height, nodeCount), 'Speed', (0, _dom.input)('.speed', { type: 'range', min: 1, max: maxSpeed, value: speed }), 'Height', (0, _dom.input)('.height', { type: 'range', min: 1, max: maxHeight, value: height }), 'Nodes', (0, _dom.input)('.node-count', { type: 'range', min: 1, max: maxNodeCount, value: nodeCount })]);
     })
   };
 }
@@ -71,6 +85,14 @@ var _rx = require('rx');
 
 var _rx2 = _interopRequireDefault(_rx);
 
+var _performanceNow = require('performance-now');
+
+var _performanceNow2 = _interopRequireDefault(_performanceNow);
+
+var _raf = require('raf');
+
+var _raf2 = _interopRequireDefault(_raf);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -79,12 +101,20 @@ function makeAnimationDriver() {
   return function animationDriver() {
     var animation$ = new _rx2.default.Subject();
 
+    var previousTime = (0, _performanceNow2.default)();
+
     function tick(timestamp) {
-      animation$.onNext(timestamp);
-      requestAnimationFrame(tick);
+      animation$.onNext({
+        timestamp: timestamp,
+        delta: timestamp - previousTime
+      });
+
+      previousTime = timestamp;
+
+      (0, _raf2.default)(tick);
     }
 
-    tick(new Date().valueOf());
+    tick(previousTime);
 
     return animation$;
   };
@@ -94,7 +124,7 @@ module.exports = {
   makeAnimationDriver: makeAnimationDriver
 };
 
-},{"rx":65}],3:[function(require,module,exports){
+},{"performance-now":65,"raf":66,"rx":68}],3:[function(require,module,exports){
 "use strict";
 
 var Rx = require("rx");
@@ -230,7 +260,7 @@ var Cycle = {
 };
 
 module.exports = Cycle;
-},{"rx":65}],4:[function(require,module,exports){
+},{"rx":68}],4:[function(require,module,exports){
 "use strict";
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -422,7 +452,7 @@ function fromEvent(element, eventName) {
 }
 
 module.exports = fromEvent;
-},{"rx":65}],6:[function(require,module,exports){
+},{"rx":68}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -473,7 +503,7 @@ function mockDOMSource() {
 
 exports['default'] = mockDOMSource;
 module.exports = exports['default'];
-},{"rx":65}],7:[function(require,module,exports){
+},{"rx":68}],7:[function(require,module,exports){
 "use strict";
 
 var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; })();
@@ -674,7 +704,7 @@ module.exports = {
 
   makeDOMDriver: makeDOMDriver
 };
-},{"./fromevent":5,"./transposition":9,"./virtual-hyperscript":10,"matches-selector":12,"rx":65,"vdom-parser":13,"virtual-dom/diff":28,"virtual-dom/patch":35}],8:[function(require,module,exports){
+},{"./fromevent":5,"./transposition":9,"./virtual-hyperscript":10,"matches-selector":12,"rx":68,"vdom-parser":13,"virtual-dom/diff":28,"virtual-dom/patch":35}],8:[function(require,module,exports){
 "use strict";
 
 var Rx = require("rx");
@@ -708,7 +738,7 @@ module.exports = {
 
   makeHTMLDriver: makeHTMLDriver
 };
-},{"./transposition":9,"rx":65,"vdom-to-html":17}],9:[function(require,module,exports){
+},{"./transposition":9,"rx":68,"vdom-to-html":17}],9:[function(require,module,exports){
 "use strict";
 
 var Rx = require("rx");
@@ -741,7 +771,7 @@ function transposeVTree(vtree) {
 module.exports = {
   transposeVTree: transposeVTree
 };
-},{"rx":65,"virtual-dom/vnode/vnode":56}],10:[function(require,module,exports){
+},{"rx":68,"virtual-dom/vnode/vnode":56}],10:[function(require,module,exports){
 /* eslint-disable */
 'use strict';
 
@@ -16711,6 +16741,114 @@ process.umask = function() { return 0; };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],65:[function(require,module,exports){
+(function (process){
+// Generated by CoffeeScript 1.7.1
+(function() {
+  var getNanoSeconds, hrtime, loadTime;
+
+  if ((typeof performance !== "undefined" && performance !== null) && performance.now) {
+    module.exports = function() {
+      return performance.now();
+    };
+  } else if ((typeof process !== "undefined" && process !== null) && process.hrtime) {
+    module.exports = function() {
+      return (getNanoSeconds() - loadTime) / 1e6;
+    };
+    hrtime = process.hrtime;
+    getNanoSeconds = function() {
+      var hr;
+      hr = hrtime();
+      return hr[0] * 1e9 + hr[1];
+    };
+    loadTime = getNanoSeconds();
+  } else if (Date.now) {
+    module.exports = function() {
+      return Date.now() - loadTime;
+    };
+    loadTime = Date.now();
+  } else {
+    module.exports = function() {
+      return new Date().getTime() - loadTime;
+    };
+    loadTime = new Date().getTime();
+  }
+
+}).call(this);
+
+}).call(this,require('_process'))
+},{"_process":63}],66:[function(require,module,exports){
+var now = require('performance-now')
+  , global = typeof window === 'undefined' ? {} : window
+  , vendors = ['moz', 'webkit']
+  , suffix = 'AnimationFrame'
+  , raf = global['request' + suffix]
+  , caf = global['cancel' + suffix] || global['cancelRequest' + suffix]
+
+for(var i = 0; i < vendors.length && !raf; i++) {
+  raf = global[vendors[i] + 'Request' + suffix]
+  caf = global[vendors[i] + 'Cancel' + suffix]
+      || global[vendors[i] + 'CancelRequest' + suffix]
+}
+
+// Some versions of FF have rAF but not cAF
+if(!raf || !caf) {
+  var last = 0
+    , id = 0
+    , queue = []
+    , frameDuration = 1000 / 60
+
+  raf = function(callback) {
+    if(queue.length === 0) {
+      var _now = now()
+        , next = Math.max(0, frameDuration - (_now - last))
+      last = next + _now
+      setTimeout(function() {
+        var cp = queue.slice(0)
+        // Clear queue here to prevent
+        // callbacks from appending listeners
+        // to the current frame's queue
+        queue.length = 0
+        for(var i = 0; i < cp.length; i++) {
+          if(!cp[i].cancelled) {
+            try{
+              cp[i].callback(last)
+            } catch(e) {
+              setTimeout(function() { throw e }, 0)
+            }
+          }
+        }
+      }, Math.round(next))
+    }
+    queue.push({
+      handle: ++id,
+      callback: callback,
+      cancelled: false
+    })
+    return id
+  }
+
+  caf = function(handle) {
+    for(var i = 0; i < queue.length; i++) {
+      if(queue[i].handle === handle) {
+        queue[i].cancelled = true
+      }
+    }
+  }
+}
+
+module.exports = function(fn) {
+  // Wrap in a new function to prevent
+  // `cancel` potentially being assigned
+  // to the native rAF function
+  return raf.call(global, fn)
+}
+module.exports.cancel = function() {
+  caf.apply(global, arguments)
+}
+
+},{"performance-now":67}],67:[function(require,module,exports){
+arguments[4][65][0].apply(exports,arguments)
+},{"_process":63,"dup":65}],68:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
 
