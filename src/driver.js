@@ -1,21 +1,25 @@
 import Rx from 'rx';
 
+import now from 'performance-now';
+
 function makeAnimationDriver () {
   return function animationDriver () {
     const animation$ = new Rx.Subject();
 
-    let prevTime = performance.now();
+    let previousTime = now();
 
     function tick (timestamp) {
       animation$.onNext({
-          timestamp,
-          delta: timestamp - prevTime
+        timestamp,
+        delta: timestamp - previousTime
       });
-      prevTime = timestamp;
+
+      previousTime = timestamp;
+
       requestAnimationFrame(tick);
     }
 
-    tick(prevTime);
+    tick(previousTime);
 
     return animation$;
   };

@@ -20,7 +20,7 @@ import {makeAnimationDriver} from 'cycle-animation-driver';
 
 function main ({DOM, animation}) {
   return {
-    DOM: animation.map(timestamp => div('.time', timestamp.toString()))
+    DOM: animation.pluck('timestamp').map(timestamp => div('.time', timestamp.toString()))
   }
 }
 
