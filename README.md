@@ -19,7 +19,7 @@ Usage
 `cycle-animation-driver` uses requestAnimationFrame to provide an Observable stream of timestamps, as fast and smooth as the browser will allow. You can access both the current time with `timestamp`, and also the `delta` (difference since last update).
 
 ```js
-import {run} from 'cycle-core';
+import {run} from '@cycle/core';
 import {makeDOMDriver, div} from '@cycle/dom';
 import {makeAnimationDriver} from 'cycle-animation-driver';
 
