@@ -16,7 +16,7 @@ npm install cycle-animation-driver --save
 Usage
 ---
 
-`cycle-animation-driver` uses requestAnimationFrame to provide a stream of timestamps, as fast and smooth as the browser will allow.
+`cycle-animation-driver` uses requestAnimationFrame to provide an Observable stream of timestamps, as fast and smooth as the browser will allow. You can access both the current time with `timestamp`, and also the `delta` (difference since last update).
 
 ```js
 import {run} from 'cycle-core';
