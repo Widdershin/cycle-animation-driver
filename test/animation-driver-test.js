@@ -9,7 +9,7 @@ describe('Animation driver', () => {
   it('provides an observable of requestAnimationFrame events', (done) => {
     const driver = makeAnimationDriver();
 
-    const responses = driver(Rx.Observable.empty());
+    const responses = driver();
 
     let firstTimeValue;
 
@@ -32,6 +32,17 @@ describe('Animation driver', () => {
       }
 
       index += 1;
+    });
+  });
+
+  it('can be disposed', (done) => {
+    const driver = makeAnimationDriver();
+    const responses = driver();
+
+    responses.take(3).subscribe(val => {
+      responses.dispose();
+
+      setTimeout(done, 50);
     });
   });
 });

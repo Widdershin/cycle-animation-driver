@@ -8,8 +8,14 @@ function makeAnimationDriver () {
     const animation$ = new Rx.Subject();
 
     let previousTime = now();
+    let frameHandle;
 
     function tick (timestamp) {
+      if (animation$.isDisposed) {
+        requestAnimationFrame.cancel(frameHandle);
+        return;
+      }
+
       animation$.onNext({
         timestamp,
         delta: timestamp - previousTime
@@ -17,7 +23,7 @@ function makeAnimationDriver () {
 
       previousTime = timestamp;
 
-      requestAnimationFrame(tick);
+      frameHandle = requestAnimationFrame(tick);
     }
 
     tick(previousTime);
