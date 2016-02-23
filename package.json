@@ -36,11 +36,13 @@
     "babel-preset-es2015": "^6.1.18",
     "babelify": "^7.2.0",
     "mocha": "^2.3.4",
-    "mochify": "^2.14.2",
-    "rx": "^4.0.7"
+    "mochify": "^2.14.2"
   },
   "dependencies": {
     "raf": "^3.1.0",
     "performance-now": "^0.2.0"
+  },
+  "peerDependecies": {
+    "rx": "^4.0.7"
   }
 }
