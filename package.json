@@ -40,9 +40,7 @@
   },
   "dependencies": {
     "raf": "^3.1.0",
-    "performance-now": "^0.2.0"
-  },
-  "peerDependecies": {
+    "performance-now": "^0.2.0",
     "rx": "^4.0.7"
   }
 }
