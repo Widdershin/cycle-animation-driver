@@ -28,6 +28,10 @@ function makeAnimationDriver () {
 
     tick(previousTime);
 
+    animation$.interval = function(period) {
+      return Rx.Observable.interval(period);
+    };
+
     return animation$;
   };
 }
