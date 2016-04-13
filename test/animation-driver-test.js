@@ -45,4 +45,14 @@ describe('Animation driver', () => {
       setTimeout(done, 50);
     });
   });
+
+  it('have interval method', (done) => {
+    const driver = makeAnimationDriver();
+    const responses = driver();
+    const intervals = responses.interval(50);
+
+    intervals.subscribe(val => {
+      setTimeout(done, 10);
+    });
+  });
 });
