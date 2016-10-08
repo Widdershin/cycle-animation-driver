@@ -2,6 +2,7 @@
 
 import Rx from 'rx';
 import {makeAnimationDriver} from '../src/driver';
+import rxAdapter from '@cycle/rx-adapter';
 
 import assert from 'assert';
 
@@ -9,7 +10,7 @@ describe('Animation driver', () => {
   it('provides an observable of requestAnimationFrame events', (done) => {
     const driver = makeAnimationDriver();
 
-    const responses = driver();
+    const responses = driver(Rx.Observable.empty(), rxAdapter);
 
     let firstTimeValue;
 
@@ -37,9 +38,9 @@ describe('Animation driver', () => {
 
   it('can be disposed', (done) => {
     const driver = makeAnimationDriver();
-    const responses = driver();
+    const responses = driver(Rx.Observable.empty(), rxAdapter);
 
-    responses.take(3).subscribe(val => {
+    responses.take(1).subscribe(val => {
       responses.dispose();
 
       setTimeout(done, 50);
@@ -48,10 +49,10 @@ describe('Animation driver', () => {
 
   it('have interval method', (done) => {
     const driver = makeAnimationDriver();
-    const responses = driver();
+    const responses = driver(Rx.Observable.empty(), rxAdapter);
     const intervals = responses.interval(50);
 
-    intervals.subscribe(val => {
+    intervals.take(1).subscribe(val => {
       setTimeout(done, 10);
     });
   });

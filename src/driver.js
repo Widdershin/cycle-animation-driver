@@ -4,19 +4,14 @@ import now from 'performance-now';
 import requestAnimationFrame from 'raf';
 
 function makeAnimationDriver () {
-  return function animationDriver () {
-    const animation$ = new Rx.Subject();
+  return function animationDriver (sink$, streamAdapter) {
+    const {observer, stream} = streamAdapter.makeSubject();
 
     let previousTime = now();
     let frameHandle;
 
     function tick (timestamp) {
-      if (animation$.isDisposed) {
-        requestAnimationFrame.cancel(frameHandle);
-        return;
-      }
-
-      animation$.onNext({
+      observer.next({
         timestamp,
         delta: timestamp - previousTime
       });
@@ -28,11 +23,15 @@ function makeAnimationDriver () {
 
     tick(previousTime);
 
-    animation$.interval = function(period) {
+    stream.interval = function (period) {
       return Rx.Observable.interval(period);
     };
 
-    return animation$;
+    stream.dispose = function () {
+      requestAnimationFrame.cancel(frameHandle);
+    };
+
+    return stream;
   };
 }
 
