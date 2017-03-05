@@ -1,17 +1,18 @@
-import Rx from 'rx';
+import * as Rx from 'rxjs';
+import {adapt} from '@cycle/run/lib/adapt';
 
 import now from 'performance-now';
 import requestAnimationFrame from 'raf';
 
 function makeAnimationDriver () {
-  return function animationDriver (sink$, streamAdapter) {
-    const {observer, stream} = streamAdapter.makeSubject();
+  return function animationDriver (sink$) {
+    const subject = new Rx.Subject();
 
     let previousTime = now();
     let frameHandle;
 
     function tick (timestamp) {
-      observer.next({
+      subject.next({
         timestamp,
         delta: timestamp - previousTime
       });
@@ -23,15 +24,15 @@ function makeAnimationDriver () {
 
     tick(previousTime);
 
-    stream.interval = function (period) {
+    subject.interval = function (period) {
       return Rx.Observable.interval(period);
     };
 
-    stream.dispose = function () {
+    subject.dispose = function () {
       requestAnimationFrame.cancel(frameHandle);
     };
 
-    return stream;
+    return adapt(subject);
   };
 }
 
