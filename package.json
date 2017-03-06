@@ -1,6 +1,6 @@
 {
   "name": "cycle-animation-driver",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A Cycle driver for requestAnimationFrame",
   "main": "lib/driver.js",
   "files": [
@@ -11,7 +11,7 @@
     "test-node": "mocha --compilers js:babel-core/register",
     "test-browser": "./node_modules/mochify/bin/cmd.js --transform babelify",
     "autotest": "mocha --compilers js:babel-core/register --watch -R min",
-    "precompile-lib": "rm -rf lib/ && mkdir -p lib",
+    "precompile-lib": "rm -rf lib/ && mkdir lib",
     "compile-lib": "babel src -d lib",
     "prepublish": "npm run compile-lib"
   },
@@ -31,7 +31,6 @@
   },
   "homepage": "https://github.com/Widdershin/cycle-animation-driver",
   "devDependencies": {
-    "@cycle/rx-adapter": "^3.0.0",
     "babel-cli": "^6.3.15",
     "babel-core": "^6.1.21",
     "babel-preset-es2015": "^6.1.18",
@@ -40,8 +39,9 @@
     "mochify": "^2.14.2"
   },
   "dependencies": {
-    "raf": "^3.1.0",
+    "@cycle/run": "^2.0.0",
     "performance-now": "^0.2.0",
-    "rx": "^4.0.7"
+    "raf": "^3.1.0",
+    "rxjs": "^5.2.0"
   }
 }
