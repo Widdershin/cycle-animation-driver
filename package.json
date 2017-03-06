@@ -11,7 +11,7 @@
     "test-node": "mocha --compilers js:babel-core/register",
     "test-browser": "./node_modules/mochify/bin/cmd.js --transform babelify",
     "autotest": "mocha --compilers js:babel-core/register --watch -R min",
-    "precompile-lib": "rm -rf lib/ && mkdir -p lib",
+    "precompile-lib": "rm -rf lib/ && mkdir lib",
     "compile-lib": "babel src -d lib",
     "prepublish": "npm run compile-lib"
   },
